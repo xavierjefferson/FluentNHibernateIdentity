@@ -1,9 +1,16 @@
 using System;
+using System.Collections.Generic;
 
 namespace FluentNHibernate.AspNet.Identity.Entities
 {
-    internal class AspNetUser
+    public class AspNetUser
     {
+        internal AspNetUser()
+        {
+            AspNetUserRoles = new List<AspNetUserRole>();
+        }
+
+        public virtual IList<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual string Id { get; set; }
         public virtual string Email { get; set; }
         public virtual bool EmailConfirmed { get; set; }

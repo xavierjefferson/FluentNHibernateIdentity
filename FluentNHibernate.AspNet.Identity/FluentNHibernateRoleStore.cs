@@ -1,27 +1,22 @@
 using System;
-using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentNHibernate.AspNet.Identity.Repositories;
 using Microsoft.AspNet.Identity;
+using Snork.FluentNHibernateTools;
 
 namespace FluentNHibernate.AspNet.Identity
 {
     public class FluentNHibernateRoleStore<TRole> : IQueryableRoleStore<TRole>
         where TRole : IdentityRole
     {
-        private readonly string _connectionString;
         private readonly RoleRepository<TRole> _roleRepository;
 
-        public FluentNHibernateRoleStore()
-            : this("DefaultConnection")
-        {
-        }
 
-        public FluentNHibernateRoleStore(string connectionStringName)
+        public FluentNHibernateRoleStore(ProviderTypeEnum providerType, string nameOrConnectionString,
+            FluentNHibernatePersistenceBuilderOptions options = null)
         {
-            _connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
-            _roleRepository = new RoleRepository<TRole>(_connectionString);
+            _roleRepository = new RoleRepository<TRole>(providerType, nameOrConnectionString, options);
         }
 
 

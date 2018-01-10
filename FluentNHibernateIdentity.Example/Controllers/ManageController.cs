@@ -1,6 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
 using FluentNHibernateIdentity.Example.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 
 namespace FluentNHibernateIdentity.Example.Controllers
 {

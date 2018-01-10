@@ -1,6 +1,6 @@
 namespace FluentNHibernate.AspNet.Identity.Entities
 {
-     class AspNetUserClaim
+    internal class AspNetUserClaim
     {
         public virtual int Id { get; set; }
         public virtual AspNetUser User { get; set; }

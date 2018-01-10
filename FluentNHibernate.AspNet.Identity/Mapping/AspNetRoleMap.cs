@@ -8,8 +8,10 @@ namespace FluentNHibernate.AspNet.Identity.Mapping
         public AspNetRoleMap()
         {
             Table("AspNetRole");
+            LazyLoad();
             Id(i => i.Id).GeneratedBy.Assigned().Length(128).Not.Nullable();
             Map(i => i.Name).Column("`Name`").Not.Nullable().Length(256);
+            HasMany(i => i.AspNetUserRoles).KeyColumn("RoleId").Cascade.All();
         }
     }
 }

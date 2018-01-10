@@ -1,18 +1,20 @@
 ﻿using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using FluentNHibernate.AspNet.Identity.Entities;
 using NHibernate.Linq;
+using Snork.FluentNHibernateTools;
 
 namespace FluentNHibernate.AspNet.Identity.Repositories
 {
     public class UserRoleRepository<TUser> : RepositoryBase where TUser : IdentityUser
     {
-        private readonly string _connectionString;
-
-        public UserRoleRepository(string connectionString)
+        public UserRoleRepository(ProviderTypeEnum providerType, string nameOrConnectionString,
+            FluentNHibernatePersistenceBuilderOptions options) : base(providerType, nameOrConnectionString, options)
         {
-            _connectionString = connectionString;
+        }
+
+        internal UserRoleRepository(string sessionFactoryKey) : base(sessionFactoryKey)
+        {
         }
 
         public void Insert(TUser user, string roleName)

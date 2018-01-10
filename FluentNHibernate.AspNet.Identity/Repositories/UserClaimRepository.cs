@@ -3,16 +3,19 @@ using System.Linq;
 using System.Security.Claims;
 using FluentNHibernate.AspNet.Identity.Entities;
 using NHibernate.Linq;
+using Snork.FluentNHibernateTools;
 
 namespace FluentNHibernate.AspNet.Identity.Repositories
 {
     public class UserClaimRepository<TUser> : RepositoryBase where TUser : IdentityUser
     {
-        private readonly string _connectionString;
-
-        public UserClaimRepository(string connectionString)
+        internal UserClaimRepository(string sessionFactoryKey) : base(sessionFactoryKey)
         {
-            _connectionString = connectionString;
+        }
+
+        public UserClaimRepository(ProviderTypeEnum providerType, string nameOrConnectionString,
+            FluentNHibernatePersistenceBuilderOptions options) : base(providerType, nameOrConnectionString, options)
+        {
         }
 
         public void Insert(TUser user, Claim claim)

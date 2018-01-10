@@ -1,6 +1,8 @@
 ﻿using FluentNHibernateIdentity.Example;
+using Microsoft.Owin;
+using Owin;
 
-[assembly: OwinStartupAttribute(typeof(Startup))]
+[assembly: OwinStartup(typeof(Startup))]
 namespace FluentNHibernateIdentity.Example
 {
     public partial class Startup

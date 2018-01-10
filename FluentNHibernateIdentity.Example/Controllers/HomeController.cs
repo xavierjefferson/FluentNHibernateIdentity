@@ -1,4 +1,6 @@
-﻿namespace FluentNHibernateIdentity.Example.Controllers
+﻿using System.Web.Mvc;
+
+namespace FluentNHibernateIdentity.Example.Controllers
 {
     public class HomeController : Controller
     {

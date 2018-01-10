@@ -7,9 +7,11 @@ namespace FluentNHibernate.AspNet.Identity.Mapping
     {
         public AspNetUserLoginMap()
         {
+            Table("`AspNetUserLogin`");
             Id(i => i.Id).Column("`Id`").GeneratedBy.Assigned();
-            References(i => i.User).Column("`UserId`").Not.Nullable();
-            Map(i => i.LoginProvider).Column("`LoginProvider`").Length(128).Not.Nullable();
+            LazyLoad();
+            References(i => i.User).Column("`UserId`").Not.Nullable().UniqueKey("uq3");
+            Map(i => i.LoginProvider).Column("`LoginProvider`").Length(128).Not.Nullable().UniqueKey("uq3");
             Map(i => i.ProviderKey).Column("`ProviderKey`").Not.Nullable().Length(128);
         }
     }

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FluentNHibernate.AspNet.Identity.Repositories;
 using Microsoft.AspNet.Identity;
+using Snork.FluentNHibernateTools;
 
 namespace FluentNHibernate.AspNet.Identity
 {
@@ -23,24 +23,19 @@ namespace FluentNHibernate.AspNet.Identity
         IQueryableUserStore<TUser>
         where TUser : IdentityUser
     {
-        private readonly string _connectionString;
         private readonly UserClaimRepository<TUser> _userClaimRepository;
         private readonly UserLoginRepository _userLoginRepository;
         private readonly UserRepository<TUser> _userRepository;
         private readonly UserRoleRepository<TUser> _userRoleRepository;
 
-        public FluentNHibernateUserStore()
-            : this("DefaultConnection")
-        {
-        }
 
-        public FluentNHibernateUserStore(string connectionStringName)
+        public FluentNHibernateUserStore(ProviderTypeEnum providerType, string nameOrConnectionString,
+            FluentNHibernatePersistenceBuilderOptions options = null)
         {
-            _connectionString = ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
-            _userRepository = new UserRepository<TUser>(_connectionString);
-            _userLoginRepository = new UserLoginRepository(_connectionString);
-            _userClaimRepository = new UserClaimRepository<TUser>(_connectionString);
-            _userRoleRepository = new UserRoleRepository<TUser>(_connectionString);
+            _userRepository = new UserRepository<TUser>(providerType, nameOrConnectionString, options);
+            _userLoginRepository = new UserLoginRepository(_userRepository.SessionFactoryKey);
+            _userClaimRepository = new UserClaimRepository<TUser>(_userRepository.SessionFactoryKey);
+            _userRoleRepository = new UserRoleRepository<TUser>(_userRepository.SessionFactoryKey);
         }
 
         public IQueryable<TUser> Users => _userRepository.GetAll();
@@ -48,7 +43,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task<IList<Claim>> GetClaimsAsync(TUser user)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             IList<Claim> result = user.Claims.Select(c => new Claim(c.ClaimType, c.ClaimValue)).ToList();
             return Task.FromResult(result);
@@ -57,7 +52,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task AddClaimAsync(TUser user, Claim claim)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             if (!user.Claims.Any(x => x.ClaimType == claim.Type && x.ClaimValue == claim.Value))
             {
@@ -75,7 +70,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task RemoveClaimAsync(TUser user, Claim claim)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             user.Claims.RemoveAll(x => x.ClaimType == claim.Type && x.ClaimValue == claim.Value);
 
@@ -87,7 +82,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task SetEmailAsync(TUser user, string email)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             user.Email = email;
 
@@ -97,7 +92,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task<string> GetEmailAsync(TUser user)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             return Task.FromResult(user.Email);
         }
@@ -105,7 +100,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task<bool> GetEmailConfirmedAsync(TUser user)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             return Task.FromResult(user.EmailConfirmed);
         }
@@ -113,7 +108,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task SetEmailConfirmedAsync(TUser user, bool confirmed)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             user.EmailConfirmed = confirmed;
 
@@ -123,7 +118,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task<TUser> FindByEmailAsync(string email)
         {
             if (email == null)
-                throw new ArgumentNullException("email");
+                throw new ArgumentNullException(nameof(email));
 
             var user = _userRepository.GetByEmail(email);
             if (user != null && !string.IsNullOrEmpty(user.Email))
@@ -141,7 +136,7 @@ namespace FluentNHibernate.AspNet.Identity
             DateTimeOffset dateTimeOffset;
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
             if (user.LockoutEndDate.HasValue)
             {
@@ -157,27 +152,20 @@ namespace FluentNHibernate.AspNet.Identity
 
         public Task SetLockoutEndDateAsync(TUser user, DateTimeOffset lockoutEnd)
         {
-            DateTime? nullable;
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
-            if (lockoutEnd == DateTimeOffset.MinValue)
-            {
-                nullable = null;
-            }
-            else
-            {
-                nullable = lockoutEnd.UtcDateTime;
-            }
-            user.LockoutEndDate = nullable;
+            DateTime? value;
+            value = lockoutEnd == DateTimeOffset.MinValue ? (DateTime?) null : lockoutEnd.UtcDateTime;
+            user.LockoutEndDate = value;
             return Task.FromResult(0);
         }
 
         public Task<int> IncrementAccessFailedCountAsync(TUser user)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             user.AccessFailedCount++;
             return Task.FromResult(user.AccessFailedCount);
         }
@@ -185,7 +173,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task ResetAccessFailedCountAsync(TUser user)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             user.AccessFailedCount = 0;
             return Task.FromResult(0);
@@ -194,7 +182,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task<int> GetAccessFailedCountAsync(TUser user)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             return Task.FromResult(user.AccessFailedCount);
         }
@@ -202,7 +190,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task<bool> GetLockoutEnabledAsync(TUser user)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             return Task.FromResult(user.LockoutEnabled);
         }
@@ -210,7 +198,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task SetLockoutEnabledAsync(TUser user, bool enabled)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             user.LockoutEnabled = enabled;
 
@@ -221,11 +209,11 @@ namespace FluentNHibernate.AspNet.Identity
         {
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
             if (login == null)
             {
-                throw new ArgumentNullException("login");
+                throw new ArgumentNullException(nameof(login));
             }
 
             var id = new UserLoginInfo(login.LoginProvider, login.ProviderKey);
@@ -241,11 +229,11 @@ namespace FluentNHibernate.AspNet.Identity
         {
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
             if (login == null)
             {
-                throw new ArgumentNullException("login");
+                throw new ArgumentNullException(nameof(login));
             }
             var tUserLogin = user.Logins.SingleOrDefault(l =>
             {
@@ -267,7 +255,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task<IList<UserLoginInfo>> GetLoginsAsync(TUser user)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             return Task.FromResult<IList<UserLoginInfo>>(user.Logins.ToList());
         }
@@ -276,7 +264,7 @@ namespace FluentNHibernate.AspNet.Identity
         {
             if (login == null)
             {
-                throw new ArgumentNullException("login");
+                throw new ArgumentNullException(nameof(login));
             }
 
             var userId = _userLoginRepository.GetByUserLoginInfo(login);
@@ -291,7 +279,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task SetPasswordHashAsync(TUser user, string passwordHash)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             user.PasswordHash = passwordHash;
             return Task.FromResult(0);
@@ -300,7 +288,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task<string> GetPasswordHashAsync(TUser user)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             return Task.FromResult(user.PasswordHash);
         }
@@ -308,7 +296,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task<bool> HasPasswordAsync(TUser user)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             return Task.FromResult(user.PasswordHash != null);
         }
@@ -316,7 +304,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task SetPhoneNumberAsync(TUser user, string phoneNumber)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             user.PhoneNumber = phoneNumber;
 
@@ -326,7 +314,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task<string> GetPhoneNumberAsync(TUser user)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             return Task.FromResult(user.PhoneNumber);
         }
@@ -334,7 +322,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task<bool> GetPhoneNumberConfirmedAsync(TUser user)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             return Task.FromResult(user.PhoneNumberConfirmed);
         }
@@ -342,7 +330,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task SetPhoneNumberConfirmedAsync(TUser user, bool confirmed)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             user.PhoneNumberConfirmed = confirmed;
 
@@ -352,7 +340,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task AddToRoleAsync(TUser user, string roleName)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             if (!user.Roles.Contains(roleName, StringComparer.InvariantCultureIgnoreCase))
             {
@@ -367,7 +355,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task RemoveFromRoleAsync(TUser user, string roleName)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             user.Roles.RemoveAll(r => string.Equals(r, roleName, StringComparison.InvariantCultureIgnoreCase));
 
@@ -381,7 +369,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task<IList<string>> GetRolesAsync(TUser user)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             return Task.FromResult<IList<string>>(user.Roles);
         }
@@ -389,7 +377,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task<bool> IsInRoleAsync(TUser user, string roleName)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             return Task.FromResult(user.Roles.Contains(roleName, StringComparer.InvariantCultureIgnoreCase));
         }
@@ -397,7 +385,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task SetSecurityStampAsync(TUser user, string stamp)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             user.SecurityStamp = stamp;
             return Task.FromResult(0);
@@ -406,7 +394,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task<string> GetSecurityStampAsync(TUser user)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             return Task.FromResult(user.SecurityStamp);
         }
@@ -421,7 +409,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task CreateAsync(TUser user)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             if (string.IsNullOrEmpty(user.Id))
                 throw new InvalidOperationException("user.Id property must be specified before calling CreateAsync");
 
@@ -432,7 +420,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task DeleteAsync(TUser user)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             _userRepository.Delete(user);
 
@@ -475,7 +463,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task UpdateAsync(TUser user)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             if (string.IsNullOrEmpty(user.Id))
                 throw new InvalidOperationException("user.Id property must be specified before calling CreateAsync");
@@ -489,7 +477,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task SetTwoFactorEnabledAsync(TUser user, bool enabled)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             user.TwoFactorAuthEnabled = enabled;
 
@@ -499,7 +487,7 @@ namespace FluentNHibernate.AspNet.Identity
         public Task<bool> GetTwoFactorEnabledAsync(TUser user)
         {
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             return Task.FromResult(user.TwoFactorAuthEnabled);
         }

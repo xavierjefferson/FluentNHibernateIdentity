@@ -1,6 +1,6 @@
 namespace FluentNHibernate.AspNet.Identity.Entities
 {
-     class AspNetUserLogin
+    internal class AspNetUserLogin
     {
         public virtual int Id { get; set; }
         public virtual string LoginProvider { get; set; }

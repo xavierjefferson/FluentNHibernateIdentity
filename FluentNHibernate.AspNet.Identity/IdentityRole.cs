@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNet.Identity;
 
 namespace FluentNHibernate.AspNet.Identity
 {

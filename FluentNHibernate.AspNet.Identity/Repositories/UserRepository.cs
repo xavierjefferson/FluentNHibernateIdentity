@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.AspNet.Identity.Entities;
 using NHibernate.Linq;
+using Snork.FluentNHibernateTools;
 
 namespace FluentNHibernate.AspNet.Identity.Repositories
 {
     public class UserRepository<TUser> : RepositoryBase where TUser : IdentityUser
     {
-        private readonly string _connectionString;
-
-        public UserRepository(string connectionString)
+        public UserRepository(ProviderTypeEnum providerType, string nameOrConnectionString,
+            FluentNHibernatePersistenceBuilderOptions options) : base(providerType, nameOrConnectionString, options)
         {
-            _connectionString = connectionString;
+        }
+
+        internal UserRepository(string sessionFactoryKey) : base(sessionFactoryKey)
+        {
         }
 
         public void Insert(TUser user)

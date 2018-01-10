@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.AspNet.Identity.Entities;
 using NHibernate.Linq;
+using Snork.FluentNHibernateTools;
 
 namespace FluentNHibernate.AspNet.Identity.Repositories
 {
     public class RoleRepository<TRole> : RepositoryBase where TRole : IdentityRole
     {
-        private readonly string _connectionString;
-
-        public RoleRepository(string connectionString)
+        internal RoleRepository(string sessionFactoryKey) : base(sessionFactoryKey)
         {
-            _connectionString = connectionString;
+        }
+
+        public RoleRepository(ProviderTypeEnum providerType, string nameOrConnectionString,
+            FluentNHibernatePersistenceBuilderOptions options) : base(providerType, nameOrConnectionString, options)
+        {
         }
 
         public IQueryable<TRole> GetRoles()

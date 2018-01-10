@@ -1,4 +1,6 @@
-﻿namespace FluentNHibernateIdentity.Example
+﻿using System.Web.Optimization;
+
+namespace FluentNHibernateIdentity.Example
 {
     public class BundleConfig
     {

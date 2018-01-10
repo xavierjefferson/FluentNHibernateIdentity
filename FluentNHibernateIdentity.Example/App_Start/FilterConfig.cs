@@ -1,4 +1,6 @@
-﻿namespace FluentNHibernateIdentity.Example
+﻿using System.Web.Mvc;
+
+namespace FluentNHibernateIdentity.Example
 {
     public class FilterConfig
     {

@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using FluentNHibernate.AspNet.Identity;
+using Microsoft.AspNet.Identity;
 
 namespace FluentNHibernateIdentity.Example.Models
 {
