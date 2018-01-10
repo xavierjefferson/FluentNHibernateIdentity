@@ -67,7 +67,7 @@ namespace FluentNHibernate.AspNet.Identity.Repositories
             destination.LockoutEndDateUtc = source.LockoutEndDate;
             destination.LockoutEnabled = source.LockoutEnabled;
             destination.AccessFailedCount = source.AccessFailedCount;
-            destination.UserName = source.UserName;
+        
         }
 
         private static TUser CopyToTUser(AspNetUser source)
