@@ -1,0 +1,32 @@
+﻿<?xml version="1.0"?>
+
+<package>
+  <metadata>
+    <id>FluentNHibernate.AspNet.Identity</id>
+    <version>1.0.0</version>
+    <authors>Xavier Jefferson</authors>
+    <owners>XavierJefferson</owners>
+    <licenseUrl>https://www.gnu.org/licenses/lgpl-3.0.en.html</licenseUrl>
+    <projectUrl>https://github.com/xavierjefferson/FluentNHibernateIdentity</projectUrl>
+    <!--<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>ASP.NET Identity providers that use FluentNHibernate.</description>
+    <releaseNotes>
+        Initial release
+    </releaseNotes>
+    <copyright>Copyright © 2017 Xavier Jefferson</copyright>
+    <tags>aspnet identity</tags>
+    <dependencies>
+		<dependency id="FluentNHibernate" version="2.0.3.0"   />
+    <dependency id="Microsoft.AspNet.Identity.Core" version="2.1.0"   />
+		<dependency id="Snork.FluentNHibernateTools" version="1.0.1"  />
+    </dependencies>
+
+
+  </metadata>
+  <files>
+    <file src="..\FluentNHibernate.AspNet.Identity\bin\debug\FluentNHibernate.AspNet.Identity.dll" target="lib\net45" />
+    <file src="..\FluentNHibernate.AspNet.Identity\bin\debug\FluentNHibernate.AspNet.Identity.pdb" target="lib\net45" />
+    <file src="..\FluentNHibernate.AspNet.Identity\**\*.cs;" target="src" exclude="**\obj*\**\*.cs" />
+  </files>
+</package>

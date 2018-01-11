@@ -287,7 +287,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FluentNHibernate.AspNet.Identity\FluentNHibernate.AspNet.Identity.csproj">
       <Project>{ec3add94-5e1d-4a5f-be06-788ac6c0e252}</Project>
-      <Name>MySql.AspNet.Identity</Name>
+      <Name>FluentNHibernate.AspNet.Identity</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

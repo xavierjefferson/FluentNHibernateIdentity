@@ -1,11 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentNHibernateIdentity.Example", "FluentNHibernateIdentity.Example\FluentNHibernateIdentity.Example.csproj", "{5BD054FE-23B0-4481-9CCF-BBCC28CC3941}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentNHibernate.AspNet.Identity", "FluentNHibernate.AspNet.Identity\FluentNHibernate.AspNet.Identity.csproj", "{EC3ADD94-5E1D-4A5F-BE06-788AC6C0E252}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{84347EF9-7FA6-4DE1-90D5-51AAC45B5225}"
+	ProjectSection(SolutionItems) = preProject
+		nu-build\build.bat = nu-build\build.bat
+		nuspecs\FluentNHibernate.AspNet.Identity.nuspec = nuspecs\FluentNHibernate.AspNet.Identity.nuspec
+		LICENSE.md = LICENSE.md
+		NOTICE.md = NOTICE.md
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +33,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {53E315F4-1EAC-4AD2-97F8-84683758E08B}
 	EndGlobalSection
 EndGlobal
