@@ -3,7 +3,7 @@
 <package>
   <metadata>
     <id>FluentNHibernate.AspNet.Identity</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <authors>Xavier Jefferson</authors>
     <owners>XavierJefferson</owners>
     <licenseUrl>https://www.gnu.org/licenses/lgpl-3.0.en.html</licenseUrl>
@@ -12,14 +12,14 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>ASP.NET Identity providers that use FluentNHibernate.</description>
     <releaseNotes>
-        Initial release
+        Update to build session factories via snork.sessionfactorybuilder
     </releaseNotes>
     <copyright>Copyright © 2017 Xavier Jefferson</copyright>
     <tags>aspnet identity</tags>
     <dependencies>
 		<dependency id="FluentNHibernate" version="2.0.3.0"   />
     <dependency id="Microsoft.AspNet.Identity.Core" version="2.1.0"   />
-		<dependency id="Snork.FluentNHibernateTools" version="1.0.1"  />
+		<dependency id="Snork.FluentNHibernateTools" version="1.0.2"  />
     </dependencies>
 
 
