@@ -26,7 +26,7 @@ Entity Framework provider (Microsoft.AspNet.Identity.EntityFramework).
 
 ## Instructions ##
 
-For more detailed instructions read this blog post : [ASP.NET Identity 2.1 implementation for FluentNHibernate](http://blog.developers.ba/asp-net-identity-2-1-for-FluentNHibernate/)
+For more detailed instructions read this blog post : [ASP.NET Identity 2.1 implementation for MySQL](http://blog.developers.ba/asp-net-identity-2-1-for-MySQL/)
 
 You don't need to execute any scripts.  The package will create required tables for you.
 
