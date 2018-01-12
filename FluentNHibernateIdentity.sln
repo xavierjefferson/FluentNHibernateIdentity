@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{84347EF9-7FA6-4DE1-90D5-51AAC45B5225}"
 	ProjectSection(SolutionItems) = preProject
 		nu-build\build.bat = nu-build\build.bat
+		DriverPackage.md = DriverPackage.md
 		nuspecs\FluentNHibernate.AspNet.Identity.nuspec = nuspecs\FluentNHibernate.AspNet.Identity.nuspec
 		LICENSE.md = LICENSE.md
 		NOTICE.md = NOTICE.md

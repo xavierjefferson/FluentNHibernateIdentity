@@ -1,4 +1,6 @@
-IMPORTANT!  For the use of any database other than SQL Server, you must also install an appropriate driver package:
+#Required Driver Packages
+
+For the use of any database other than SQL Server, you must also install an appropriate driver package:
 
 ### For MySQL:
 ```
@@ -10,7 +12,7 @@ Install-Package MySql.Data
 Install-Package Npgsql
 ```
 
-### For Oracle Managed Provider):
+### For Oracle Managed Provider:
 ```
 Install-Package Oracle.ManagedDataAccess
 ```
