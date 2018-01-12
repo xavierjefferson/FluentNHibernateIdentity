@@ -1,5 +1,5 @@
 # FluentNHibernate.AspNet.Identity #
-An ASP.NET Identity 2.1 provider for FluentNHibernate
+An ASP.NET Identity 2.1 provider for FluentNHibernate.  Supports MySQL, SQL Server, Oracle, DB/2, SQLite, Firebird, PostgreSQL, SQLAnyWhere, SQL Server Compact Edition
 
 ## Purpose ##
 
@@ -61,10 +61,11 @@ You don't need to execute any scripts.  The package will create required tables 
     * In method  public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
 	replace ApplicationUserManager with another which accepts FluentNHibernateUserStore like this:
 
+	* Find your particular RDBMS in the `ProviderTypeEnum` enumeration and provide a connection string.  You will need to install an [additional driver package](DriverPackage.md) for all RDBMS systems except SQL Server.
 ```C#
 public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
 {
      // var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
-     var manager = new ApplicationUserManager(new FluentNHibernateUserStore<ApplicationUser>());
+     var manager = new ApplicationUserManager(new FluentNHibernateUserStore<ApplicationUser>(ProviderTypeEnum.MySQL, "nameOrConnectionString"));
 	 
 ```
