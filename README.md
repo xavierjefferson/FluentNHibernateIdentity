@@ -1,5 +1,5 @@
-# MySql.AspNet.Identity #
-An ASP.NET Identity 2.1 provider for MySql
+# FluentNHibernate.AspNet.Identity #
+An ASP.NET Identity 2.1 provider for FluentNHibernate
 
 ## Purpose ##
 
@@ -11,7 +11,7 @@ Entity Framework provider (Microsoft.AspNet.Identity.EntityFramework).
 * Contains the same IdentityUser class used by the EntityFramework provider in the MVC 5 project template.
 * Contains the same IdentityRole class used by the EntityFramework provider in the MVC 5 project template.
 * Supports additional profile properties on your application's user model.
-* Provides MySqlUserStore<TUser> implementation that implements the same interfaces as the EntityFramework version:
+* Provides FluentNHibernateUserStore<TUser> implementation that implements the same interfaces as the EntityFramework version:
 
 	- IUserStore<TUser>,
 	- IUserLoginStore<TUser>,
@@ -26,25 +26,25 @@ Entity Framework provider (Microsoft.AspNet.Identity.EntityFramework).
 
 ## Instructions ##
 
-For more detailed instructions read this blog post : [ASP.NET Identity 2.1 implementation for MySQL](http://blog.developers.ba/asp-net-identity-2-1-for-mysql/)
+For more detailed instructions read this blog post : [ASP.NET Identity 2.1 implementation for FluentNHibernate](http://blog.developers.ba/asp-net-identity-2-1-for-FluentNHibernate/)
 
-You will need to execute  [create script](https://github.com/radenkozec/MySqlIdentity/blob/master/MySql.AspNet.Identity/MySqlTableSetUp.sql) on your MySQL database which will create the tables required for the ASP.NET Identity provider.
+You don't need to execute any scripts.  The package will create required tables for you.
 
 1. Create a new ASP.NET MVC 5 project, choosing the Individual User Accounts authentication type.
-2. Remove the Entity Framework packages and replace with MySql.AspNet.Identity.
+2. Remove the Entity Framework packages and replace with FluentNHibernate.AspNet.Identity.
 
 	* Uninstall-Package Microsoft.AspNet.Identity.EntityFramework
 	* Uninstall-Package EntityFramework
-3. Install-Package MySql.AspNet.Identity
+3. Install-Package FluentNHibernate.AspNet.Identity
 
     
 4. In ~/Models/IdentityModels.cs:
     * Remove the namespaces: 
 		* Microsoft.AspNet.Identity.EntityFramework
 		* System.Data.Entity
-5. Install NuGet Package called MySql.AspNet.Identity
-    * Add the namespace: MySql.AspNet.Identity
-	This way ApplicationUser will inherit from another IdentityUser which resides in MySql.Asp.Net.Identity namespace
+5. Install NuGet Package called FluentNHibernate.AspNet.Identity
+    * Add the namespace: FluentNHibernate.AspNet.Identity
+	This way ApplicationUser will inherit from another IdentityUser which resides in FluentNHibernate.Asp.Net.Identity namespace
     * Remove the entire ApplicationDbContext class. You don't need that!
 	
 6. In ~/App_Start/Startup.Auth.cs
@@ -59,12 +59,12 @@ You will need to execute  [create script](https://github.com/radenkozec/MySqlIde
 	  	* Microsoft.AspNet.Identity.EntityFramework
 		* System.Data.Entity
     * In method  public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
-	replace ApplicationUserManager with another which accepts MySqlUserStore like this:
+	replace ApplicationUserManager with another which accepts FluentNHibernateUserStore like this:
 
 ```C#
 public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
 {
      // var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
-     var manager = new ApplicationUserManager(new MySqlUserStore<ApplicationUser>());
+     var manager = new ApplicationUserManager(new FluentNHibernateUserStore<ApplicationUser>());
 	 
 ```
