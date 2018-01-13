@@ -1,7 +1,7 @@
 # FluentNHibernate.AspNet.Identity #
 [![Latest version](https://img.shields.io/nuget/v/FluentNHibernate.AspNet.Identity.svg)](https://www.nuget.org/packages/FluentNHibernate.AspNet.Identity/) 
 
-An ASP.NET Identity 2.1 provider for FluentNHibernate.  Supports MySQL, SQL Server, Oracle, DB/2, SQLite, Firebird, PostgreSQL, SQLAnyWhere, SQL Server Compact Edition
+An ASP.NET Identity 2.1 provider that uses FluentNHibernate.  Supports MySQL, SQL Server, Oracle, DB/2, SQLite, Firebird, PostgreSQL, SQLAnyWhere, SQL Server Compact Edition.
 
 ## Purpose ##
 
