@@ -3,7 +3,7 @@
 <package>
   <metadata>
     <id>FluentNHibernate.AspNet.Identity</id>
-    <version>1.1.8192</version>
+    <version>1.1.8194</version>
     <authors>Xavier Jefferson</authors>
     <owners>XavierJefferson</owners>
     <licenseUrl>https://www.gnu.org/licenses/lgpl-3.0.en.html</licenseUrl>
@@ -14,9 +14,9 @@
       An ASP.NET Identity 2.1 provider that uses FluentNHibernate.  Supports MySQL, SQL Server, Oracle, DB/2, SQLite, Firebird, PostgreSQL, SQLAnyWhere, SQL Server Compact Edition.
     </description>
     <releaseNotes>
-    Resolve issue with claims
+   Add autoincrement to Id property of AspNetUserLogin
     </releaseNotes>
-    <copyright>Copyright © 2017 Xavier Jefferson</copyright>
+    <copyright>Copyright © 2018 Xavier Jefferson</copyright>
     <tags>aspnet identity</tags>
     <dependencies>
 		<dependency id="FluentNHibernate" version="2.0.3.0"   />
