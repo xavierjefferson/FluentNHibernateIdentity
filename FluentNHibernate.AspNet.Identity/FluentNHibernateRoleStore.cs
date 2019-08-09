@@ -8,7 +8,7 @@ using Snork.FluentNHibernateTools;
 namespace FluentNHibernate.AspNet.Identity
 {
     public class FluentNHibernateRoleStore<TRole> : IQueryableRoleStore<TRole>
-        where TRole : IdentityRole
+        where TRole : IdentityRole, new()
     {
         private readonly RoleRepository<TRole> _roleRepository;
 

@@ -7,7 +7,7 @@ using Snork.FluentNHibernateTools;
 
 namespace FluentNHibernate.AspNet.Identity.Repositories
 {
-    public class RoleRepository<TRole> : RepositoryBase where TRole : IdentityRole
+    public class RoleRepository<TRole> : RepositoryBase where TRole : IdentityRole, new()
     {
         internal RoleRepository(string sessionFactoryKey) : base(sessionFactoryKey)
         {
@@ -25,9 +25,7 @@ namespace FluentNHibernate.AspNet.Identity.Repositories
             {
                 foreach (var role1 in session.Query<AspNetRole>())
                 {
-                    var role = (TRole) Activator.CreateInstance(typeof(TRole));
-                    role.Id = role1.Id;
-                    role.Name = role1.Name;
+                    var role = new TRole {Id = role1.Id, Name = role1.Name};
                     roles.Add(role);
                 }
             }
@@ -52,47 +50,31 @@ namespace FluentNHibernate.AspNet.Identity.Repositories
             }
         }
 
-        public IdentityRole GetRoleById(string roleId)
-        {
-            var roleName = GetRoleName(roleId);
-            IdentityRole role = null;
-
-            if (roleName != null)
-            {
-                role = new IdentityRole(roleName, roleId);
-            }
-
-            return role;
-        }
-
-        private string GetRoleName(string roleId)
+        public TRole GetRoleById(string roleId)
         {
             using (var session = GetStatelessSession())
             {
-                return session.Query<AspNetRole>().Where(i => i.Id == roleId).Select(i => i.Name).FirstOrDefault();
+                var aspNetRole = session.Query<AspNetRole>().FirstOrDefault(i => i.Id == roleId);
+                return Convert(aspNetRole);
             }
         }
 
-        public IdentityRole GetRoleByName(string roleName)
+        private static TRole Convert(AspNetRole aspNetRole)
         {
-            var roleId = GetRoleId(roleName);
-            IdentityRole role = null;
-
-            if (roleId != null)
-            {
-                role = new IdentityRole(roleName, roleId);
-            }
-
-            return role;
+            if (aspNetRole != null)
+                return new TRole {Id = aspNetRole.Id, Name = aspNetRole.Name};
+            return null;
         }
 
-        private string GetRoleId(string roleName)
+        public TRole GetRoleByName(string roleName)
         {
             using (var session = GetStatelessSession())
             {
-                return session.Query<AspNetRole>().Where(i => i.Name == roleName).Select(i => i.Id).FirstOrDefault();
+                var aspNetRole = session.Query<AspNetRole>().FirstOrDefault(i => i.Name == roleName);
+                return Convert(aspNetRole);
             }
         }
+
 
         public void Update(IdentityRole role)
         {
