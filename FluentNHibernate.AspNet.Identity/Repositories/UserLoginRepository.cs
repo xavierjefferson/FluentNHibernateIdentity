@@ -36,11 +36,11 @@ namespace FluentNHibernate.AspNet.Identity.Repositories
             using (var session = GetStatelessSession())
             {
                 var qry = string.Format(
-                    @"DELETE FROM {0} WHERE {3}.{1} = :Id AND {2} = :loginprovider AND {4} = :providerkey",
+                    @"DELETE FROM {0} WHERE {3}.{1} = :userid AND {2} = :loginprovider AND {4} = :providerkey",
                     nameof(AspNetUserLogin), nameof(AspNetUserLogin.Id), nameof(AspNetUserLogin.LoginProvider),
                     nameof(AspNetUserLogin.User), nameof(AspNetUserLogin.ProviderKey));
                 session.CreateQuery(qry)
-                    .SetParameter("id", user.Id)
+                    .SetParameter("userid", user.Id)
                     .SetParameter("loginprovider", login.LoginProvider)
                     .SetParameter("providerkey", login.ProviderKey)
                     .ExecuteUpdate();

@@ -3,7 +3,7 @@
 <package>
 	<metadata>
 		<id>FluentNHibernate.AspNet.Identity</id>
-		<version>1.1.8396</version>
+		<version>1.1.8399</version>
 		<authors>Xavier Jefferson</authors>
 		<owners>XavierJefferson</owners>
 		<licenseUrl>https://www.gnu.org/licenses/lgpl-3.0.en.html</licenseUrl>
@@ -14,7 +14,7 @@
 			An ASP.NET Identity 2.1 provider that uses FluentNHibernate.  Supports MySQL, SQL Server, Oracle, DB/2, SQLite, Firebird, PostgreSQL, SQLAnyWhere, SQL Server Compact Edition.
 		</description>
 		<releaseNotes>
-			Update role store code to return correct type
+			Update user login store to delete correctly
 		</releaseNotes>
 		<copyright>Copyright © 2019 Xavier Jefferson</copyright>
 		<tags>aspnet identity</tags>
